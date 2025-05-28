@@ -1,1 +1,9 @@
-nc -v google.com 80
+#nc -v google.com 80
+<now connected to google, we will execute the command>
+GET \
+
+one terminal:
+nc -vlp 1234
+
+another terminal:
+nc -nv 127.0.0.1 (n - no dns and connected now we can message each terminal)

